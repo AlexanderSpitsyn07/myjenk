@@ -1,0 +1,18 @@
+node("ansible_docker"){
+    stage("Git checkout"){
+        url: 'https://github.com/AlexanderSpitsyn07/myjenk'
+    }
+    stage("Check ssh key"){
+        secret_check=true
+    }
+    stage("Run playbook"){
+        if (secret_check){
+            git   'https://github.com/AlexanderSpitsyn07/myjenk.git'
+            sh 'ansible-playbook site.yml -i inventory/prod.yml'
+        }
+        else{
+            echo 'no more keys'
+        }
+        
+    }
+}
